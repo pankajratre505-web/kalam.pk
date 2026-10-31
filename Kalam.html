@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kalam – ideas for poets and storytellers</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,500&family=DM+Sans:wght@400;500&display=swap">
+<style>
+:root{--bg:#0f1a1c;--card:#172629;--ink:#eef3ee;--muted:#9db2b0;--accent:#f2b45a;--on:#1a1206;--line:rgba(255,255,255,.14);color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f3f6f4;--card:#fff;--ink:#14211f;--muted:#51655f;--accent:#b9650a;--on:#fff;--line:rgba(0,0,0,.15);color-scheme:light}}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.05rem/1.6 "DM Sans",system-ui,sans-serif}
+main{max-width:720px;margin:0 auto;padding:2.2rem 1.2rem 4rem}
+h1,h2,.serif{font-family:Fraunces,Georgia,serif}
+h1{font-size:clamp(3rem,12vw,4.6rem);line-height:1;margin:.2rem 0 .6rem;font-weight:600;letter-spacing:-.02em}
+h1::after{content:".";color:var(--accent)}
+.kicker{color:var(--accent);font-weight:500;margin:0;letter-spacing:.08em;text-transform:uppercase;font-size:.85rem}
+.lede{color:var(--muted);margin:0 0 1.6rem;max-width:34em}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:1.3rem}
+label,.lab{display:block;font-weight:500;margin:0 0 .4rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.1rem}
+.chip{font:inherit;color:var(--ink);background:transparent;border:1.5px solid var(--line);border-radius:999px;padding:.4rem 1rem;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on)}
+textarea,select,input{width:100%;font:inherit;color:var(--ink);background:transparent;border:1.5px solid var(--line);border-radius:14px;padding:.7rem .9rem}
+select option{color:#14211f}
+textarea{resize:vertical;min-height:9rem}
+.row{display:grid;gap:1rem;margin:1.1rem 0}
+@media(min-width:520px){.row{grid-template-columns:1fr 1fr}}
+.go{font:600 1.05rem "DM Sans",system-ui,sans-serif;width:100%;background:var(--accent);color:var(--on);border:0;border-radius:14px;padding:.9rem;cursor:pointer}
+.go:disabled{opacity:.6;cursor:default}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.err{color:#ff8f8f;margin:.8rem 0 0;min-height:1.4em}
+#out{margin-top:2rem}
+#out section{margin-bottom:2rem}
+h2{font-size:1.5rem;margin:0 0 .8rem;font-weight:600}
+.hint{color:var(--muted);font-size:.9rem;margin:-.5rem 0 .8rem}
+.item{display:block;width:100%;text-align:left;font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:14px;padding:.8rem 1rem;margin-bottom:.6rem;cursor:pointer}
+.item b{display:block;font-family:Fraunces,Georgia,serif;font-style:italic;font-weight:500;font-size:1.25rem;line-height:1.35}
+.item span{color:var(--muted);font-size:.95rem}
+ol.steps{margin:0;padding-left:1.4rem}
+ol.steps li{margin-bottom:.7rem;padding-left:.3rem}
+#titlebox{margin-bottom:1.1rem}
+.piece{margin-top:2rem;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:1.4rem}
+.piece h2{font-size:1.8rem;margin:0 0 1rem}
+.piece .body{font-family:Fraunces,Georgia,serif;font-weight:500;font-size:1.15rem;line-height:1.8;white-space:pre-wrap;overflow-wrap:anywhere}
+.acts{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.3rem}
+.ghost{font:500 1rem "DM Sans",system-ui,sans-serif;color:var(--ink);background:transparent;border:1.5px solid var(--line);border-radius:999px;padding:.5rem 1.1rem;cursor:pointer}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 1.2rem);transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:.5rem 1.1rem;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.on{opacity:1}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="kicker">For poets and storytellers</p>
+    <h1>Kalam</h1>
+    <p class="lede">Share your idea or feeling, even half-formed. Get headlines, topics and instructions, or let Kalam write a full poem or story for you.</p>
+  </header>
+
+  <div class="card">
+    <span class="lab" id="ml">What do you need?</span>
+    <div class="chips" id="modes" role="group" aria-labelledby="ml"></div>
+    <span class="lab" id="tl">What are you writing?</span>
+    <div class="chips" id="types" role="group" aria-labelledby="tl"></div>
+    <div id="titlebox" hidden><label for="ttl">Heading (optional)</label><input id="ttl" maxlength="120" placeholder="For example: Chai on the Balcony"></div>
+    <label for="idea" id="idealab">Your idea or thoughts</label>
+    <textarea id="idea" maxlength="1200" placeholder="For example: a mother waiting for a train that never comes, or the quiet after a monsoon night…"></textarea>
+    <div class="row">
+      <div><label for="tone">Tone</label>
+        <select id="tone"><option>Any</option><option>Hopeful</option><option>Sad</option><option>Romantic</option><option>Funny</option><option>Dark</option><option>Calm</option></select></div>
+      <div><label for="lang">Language of the ideas</label>
+        <select id="lang"><option value="the same language as the writer’s idea">Same as my idea</option><option>English</option><option>Hindi</option><option>Hinglish</option></select></div>
+      <div id="lenbox" hidden><label for="len">Length</label><select id="len"><option>Short</option><option selected>Medium</option><option>Long</option></select></div>
+    </div>
+    <button class="go" id="go" type="button">Give me ideas</button>
+    <p class="err" id="err" role="alert"></p>
+  </div>
+
+  <div class="piece" id="piece" hidden>
+    <h2 id="ptitle"></h2>
+    <div class="body" id="pbody"></div>
+    <div class="acts"><button class="ghost" id="pcopy" type="button">Copy</button><button class="ghost" id="pagain" type="button">Write another version</button></div>
+  </div>
+
+  <div id="out" hidden>
+    <section><h2>Headlines</h2><p class="hint">Tap one to copy it.</p><div id="heads"></div></section>
+    <section><h2>Topics and angles</h2><div id="topics"></div></section>
+    <section><h2>How to write it</h2><ol class="steps" id="steps"></ol></section>
+    <section><h2>Ways to begin</h2><p class="hint">Opening lines to spark your own. Tap to copy.</p><div id="opens"></div></section>
+  </div>
+</main>
+<div class="toast" id="toast" role="status">Copied</div>
+
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)};
+  var TYPES=["Poem","Short story","Essay","Song lyrics"],type=TYPES[0],sample=null;
+
+  TYPES.forEach(function(t,i){
+    var b=document.createElement("button");b.type="button";b.className="chip";b.textContent=t;
+    b.setAttribute("aria-pressed",i===0?"true":"false");
+    b.onclick=function(){type=t;Array.prototype.forEach.call($("types").children,function(c){c.setAttribute("aria-pressed","false")});b.setAttribute("aria-pressed","true")};
+    $("types").appendChild(b);
+  });
+
+  var MODES=[["ideas","Headlines and topics"],["write","Write a full piece"]],mode="ideas",PH=$("idea").placeholder;
+  MODES.forEach(function(m){
+    var b=document.createElement("button");b.type="button";b.className="chip";b.textContent=m[1];
+    b.setAttribute("aria-pressed",m[0]==="ideas"?"true":"false");
+    b.onclick=function(){mode=m[0];Array.prototype.forEach.call($("modes").children,function(c){c.setAttribute("aria-pressed","false")});b.setAttribute("aria-pressed","true");setMode()};
+    $("modes").appendChild(b);
+  });
+  function setMode(){
+    var w=mode==="write";
+    $("titlebox").hidden=!w;$("lenbox").hidden=!w;
+    $("idealab").textContent=w?"Topic or story idea":"Your idea or thoughts";
+    $("idea").placeholder=w?"What should it be about? A few words are enough.":PH;
+    $("go").textContent=w?"Write it for me":"Give me ideas";
+    $("err").textContent="";
+    $("out").hidden=w||$("heads").childNodes.length===0;
+    $("piece").hidden=!w||$("pbody").textContent==="";
+  }
+
+  if(window.claude&&claude.use){claude.use("sample").then(function(s){sample=s}).catch(function(){})}
+
+  function toast(){var t=$("toast");t.classList.add("on");setTimeout(function(){t.classList.remove("on")},1200)}
+  function copy(txt){try{navigator.clipboard.writeText(txt).then(toast,function(){})}catch(e){}}
+  function item(host,main,sub){
+    var b=document.createElement("button");b.type="button";b.className="item";
+    var m=document.createElement("b");m.textContent=main;b.appendChild(m);
+    if(sub){var s=document.createElement("span");s.textContent=sub;b.appendChild(s)}
+    b.onclick=function(){copy(main)};host.appendChild(b);
+  }
+  function list(a){return Array.isArray(a)?a:[]}
+
+  function render(r){
+    ["heads","topics","steps","opens"].forEach(function(i){$(i).textContent=""});
+    list(r.headlines).forEach(function(h){item($("heads"),String(h))});
+    list(r.topics).forEach(function(t){
+      if(t&&typeof t==="object")item($("topics"),String(t.topic||""),String(t.angle||""));else item($("topics"),String(t));
+    });
+    list(r.instructions).forEach(function(s){var li=document.createElement("li");li.textContent=String(s);$("steps").appendChild(li)});
+    list(r.openings).forEach(function(o){item($("opens"),String(o))});
+    $("out").hidden=false;$("out").scrollIntoView({behavior:"smooth"});
+  }
+
+  $("go").onclick=function(){return(mode==="write"?writeIt:ideasIt).call(this)};
+  async function ideasIt(){
+    var idea=$("idea").value.trim(),err=$("err"),btn=this;err.textContent="";
+    if(idea.length<8){err.textContent="Write a few words about your idea first.";return}
+    if(!sample){err.textContent="The idea helper isn’t available in this view. Please open the page again.";return}
+    btn.disabled=true;btn.textContent="Thinking…";
+    var prompt="You are a warm, skilled writing coach for poets and storytellers. The writer wants to write: "+type+". Tone: "+$("tone").value+". Write all your output in "+$("lang").value+".\n\nTheir idea:\n\"\"\"\n"+idea+"\n\"\"\"\n\nReturn ONLY JSON in exactly this shape: {\"headlines\":[6 strings],\"topics\":[5 objects with \"topic\" and \"angle\" (one sentence)],\"instructions\":[5 strings],\"openings\":[3 strings]}.\nRules: headlines are fresh, specific titles for this piece, not generic. Topics are different directions the writer could take the idea. Instructions are concrete, step-by-step guidance for writing this exact piece (structure, imagery, voice, ending), each one or two sentences. Openings are first lines to spark the writer’s own work. Never write the full poem or story.";
+    try{
+      var r=await sample.json(prompt);
+      if(typeof r==="string")r=JSON.parse(r);
+      render(r);
+    }catch(e){
+      var c=e&&e.code;
+      err.textContent=c==="not_granted"?"Please allow the helper when asked, then try again.":c==="rate_limited"?"That was a lot at once. Please wait a minute and try again.":"Something went wrong. Please try again.";
+    }
+    btn.disabled=false;btn.textContent="Give me ideas";
+  }
+
+  $("pcopy").onclick=function(){copy($("ptitle").textContent+"\n\n"+$("pbody").textContent)};
+  $("pagain").onclick=function(){writeIt.call($("go"))};
+
+  async function writeIt(){
+    var topic=$("idea").value.trim(),ttl=$("ttl").value.trim(),err=$("err"),btn=this;err.textContent="";
+    if(topic.length<4&&ttl.length<3){err.textContent="Give a heading or a topic to write about.";return}
+    if(!sample){err.textContent="The writing helper isn’t available in this view. Please open the page again.";return}
+    btn.disabled=true;btn.textContent="Writing…";
+    var words={Short:"about 12 to 20 lines for a poem or song, about 300 words for a story or essay",Medium:"about 24 to 32 lines for a poem or song, about 700 words for a story or essay",Long:"about 40 lines or more for a poem or song, about 1200 words for a story or essay"}[$("len").value];
+    var prompt="You are a gifted writer. Write one complete, original piece of this kind: "+type.toLowerCase()+". Heading given by the writer: "+(ttl||"(none, create a fitting title)")+". Topic or idea: "+(topic||"(none, base it on the heading)")+". Tone: "+$("tone").value+". Write it in "+$("lang").value+". Length: "+words+".\n\nReturn ONLY JSON: {\"title\":\"the title\",\"text\":\"the full piece, with line breaks written as \\n\"}. Make it vivid and human, avoid cliches, and give it a real ending.";
+    try{
+      var r=await sample.json(prompt);
+      if(typeof r==="string")r=JSON.parse(r);
+      $("ptitle").textContent=String(r.title||ttl||"Untitled");
+      $("pbody").textContent=String(r.text||"");
+      $("piece").hidden=false;$("out").hidden=true;
+      $("piece").scrollIntoView({behavior:"smooth"});
+    }catch(e){
+      var c=e&&e.code;
+      err.textContent=c==="not_granted"?"Please allow the helper when asked, then try again.":c==="rate_limited"?"That was a lot at once. Please wait a minute and try again.":"Something went wrong. Please try again.";
+    }
+    btn.disabled=false;btn.textContent="Write it for me";
+  }
+})();
+</script>
+</body>
+</html>
